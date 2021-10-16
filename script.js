@@ -1,18 +1,13 @@
-let cityArray = [
-   { cityName: "Krasnodar", cityId: 542420 },
-   { cityName: "Moscow", cityId: 524894 },
-   { cityName: "Samara", cityId: 499099 },
-   { cityName: "Tula", cityId: 480562 }
-];
-
+//////МОДУЛЬ РАЗМЕТКИ//////
 let htmlElements = [
-   {tag: 'section', classHTML: 'wrapper'},
-   {tag: 'div', classHTML: 'body-vidjet'},
+   {tag: 'article', classHTML: 'b-wrapper-vidjet'},
+   {tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet'},
    { tag: 'h2', classHTML: 'city' },
    { tag: 'p', classHTML: 'temperature' },
    { tag: 'p', classHTML: 'disclaimer' },
    { tag: 'p', classHTML: 'icon' },
    { tag: 'small', classHTML: 'pressure' },
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel'}
    ];
 
 function createHTMLElements(x) {
@@ -23,18 +18,18 @@ function createHTMLElements(x) {
       htmlElement.classList = `${classHTML}`;
 
 
-      if (htmlElement.className === 'wrapper') {
+      if (htmlElement.className === 'b-wrapper-vidjet') {
          document.body.append(htmlElement);
          // console.log(htmlElement);
          htmlElement = '';
       }
-      if (htmlElement.className === 'body-vidjet') {
-         document.querySelector('.wrapper').append(htmlElement);
+      if (htmlElement.className === 'b-wrapper-vidjet__body-vidjet' || htmlElement.className === 'b-wrapper-vidjet__btns-panel') {
+         document.querySelector('.b-wrapper-vidjet').append(htmlElement);
          htmlElement = '';
          // console.log(htmlElement);
       }
       if (htmlElement) {//почему дальше шла пустая строка???
-         document.querySelector('.body-vidjet').append(htmlElement);
+         document.querySelector('.b-wrapper-vidjet__body-vidjet').append(htmlElement);
       }
 
    });
@@ -44,75 +39,41 @@ createHTMLElements(htmlElements);
 
 
 
+//////МОДУЛЬ КНОПОК//////
+let сities = [
+   { tag: 'button', htmlClass: 'btn', cityName: "Krasnodar", id: 542420 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Moscow", id: 524894 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Samara", id: 499099 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
+];
 
 
+function createButtons(x) {
+   x.forEach((item) => {
+      let { tag, htmlClass, id, cityName} = item;
+      let htmlElement = document.createElement(`${tag}`);
+      htmlElement.textContent = cityName;
+      htmlElement.id = id;
+      htmlElement.classList = htmlClass;
+      parent.append(htmlElement);
+   })
+};
 
-
-// widgetInitializationInHTML();
-// btnsPanelInitializationInHTML();
-
-// function widgetInitializationInHTML() {
-//    let sectionVrapper = document.createElement('section')
-//    sectionVrapper.className = 'wrapper';
-//    document.body.append(sectionVrapper);
-
-//    let divBodyVidjet = document.createElement('div')
-//    divBodyVidjet.className = 'body-vidjet';
-//    sectionVrapper.append(divBodyVidjet);
-
-//    let cityName = document.createElement('h2');
-//    cityName.className = 'city';
-//    sectionVrapper.append(cityName);
-
-//    let temperature = document.createElement('p');
-//    temperature.className = 'temperature';
-//    sectionVrapper.append(temperature);
-
-//    let disclaimer = document.createElement('p');
-//    disclaimer.className = 'disclaimer';
-//    sectionVrapper.append(disclaimer);
-
-//    let iconWeather = document.createElement('p');
-//    iconWeather.className = 'icon';
-//    sectionVrapper.append(iconWeather);
-
-//    let pressure = document.createElement('small');
-//    pressure.className = 'pressure';
-//    sectionVrapper.append(pressure);
-// }
-
-
-function btnsPanelInitializationInHTML() {
-   let btnsPanel = document.createElement('div');
-   btnsPanel.className = 'bts-panel';
-   document.body.append(btnsPanel);
-
-   btnsPanel.innerHTML = `${cityArray
-      .map((i) => `<button id="${i.cityId}" class="btnCity">${i.cityName}</button>`)
-      .join("")}`;
+function createButtonsPanel() {
+   let par = document.querySelector('.b-wrapper-vidjet__btns-panel');
+   par.addEventListener('click', (event) => {
+      if (event.target.tagName == 'BUTTON') {
+         console.log('Нажатие на кнопку');
+      }    
+   })
+   return par;
 }
 
+let parent = createButtonsPanel();
+createButtons(сities, parent);
 
 
 
 
 
-function printBtn() {
-   for (var i = 0; i < cityArray.length; i++) {
-      var btn = document.createElement("button");
-      var t = document.createTextNode(cityArray[i]['cityName']);
-      let z = document.createTextNode(cityArray[i]['cityId']);
-      btn.append(t);
-      btn.id = (z.nodeValue)
-      document.body.append(btn);
-   }
-}
 
-// function createHTMLElements(x) {
-//    x.forEach((item) => {
-//       let { tag, classHTML } = item;
-//       let htmlElement = document.createElement(`${tag}`);
-//       htmlElement.classList = `${classHTML}`;
-//       document.body.append(htmlElement);
-//    });
-// };
