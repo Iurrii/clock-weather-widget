@@ -17,21 +17,17 @@ function createHTMLElements(x) {
       let htmlElement = document.createElement(`${tag}`);
       htmlElement.classList = `${classHTML}`;
 
-
       if (htmlElement.className === 'b-wrapper-vidjet') {
          document.body.append(htmlElement);
-         // console.log(htmlElement);
          htmlElement = '';
       }
       if (htmlElement.className === 'b-wrapper-vidjet__body-vidjet' || htmlElement.className === 'b-wrapper-vidjet__btns-panel') {
          document.querySelector('.b-wrapper-vidjet').append(htmlElement);
          htmlElement = '';
-         // console.log(htmlElement);
       }
-      if (htmlElement) {//почему дальше шла пустая строка???
+      if (htmlElement) {
          document.querySelector('.b-wrapper-vidjet__body-vidjet').append(htmlElement);
       }
-
    });
 };
 
@@ -47,9 +43,8 @@ let сities = [
    { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
 ];
 
-
-function createButtons(x) {
-   x.forEach((item) => {
+function createButtons(array, parent) {
+   array.forEach((item) => {
       let { tag, htmlClass, id, cityName} = item;
       let htmlElement = document.createElement(`${tag}`);
       htmlElement.textContent = cityName;
@@ -69,11 +64,4 @@ function createButtonsPanel() {
    return par;
 }
 
-let parent = createButtonsPanel();
-createButtons(сities, parent);
-
-
-
-
-
-
+createButtons(сities, createButtonsPanel());
