@@ -10,6 +10,8 @@ let htmlElements = [
    { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel'}
    ];
 
+createHTMLElements(htmlElements);
+
 function createHTMLElements(x) {
    x.forEach((item) => {
 
@@ -17,11 +19,11 @@ function createHTMLElements(x) {
       let htmlElement = document.createElement(`${tag}`);
       htmlElement.classList = `${classHTML}`;
 
-      if (htmlElement.className === 'b-wrapper-vidjet') {
+      if (isElenentWithСlass(htmlElement, 'b-wrapper-vidjet')) {
          document.body.append(htmlElement);
          htmlElement = '';
       }
-      if (htmlElement.className === 'b-wrapper-vidjet__body-vidjet' || htmlElement.className === 'b-wrapper-vidjet__btns-panel') {
+      if (isElenentWithСlass(htmlElement, 'b-wrapper-vidjet__body-vidjet') || isElenentWithСlass(htmlElement,'b-wrapper-vidjet__btns-panel')) {
          document.querySelector('.b-wrapper-vidjet').append(htmlElement);
          htmlElement = '';
       }
@@ -31,7 +33,16 @@ function createHTMLElements(x) {
    });
 };
 
-createHTMLElements(htmlElements);
+function isElenentWithСlass(element, htmlClass) {
+   if (element.className === `${htmlClass}`) {
+      return true
+   }
+   else {
+      return false
+   }
+};
+
+
 
 
 
@@ -42,6 +53,8 @@ let сities = [
    { tag: 'button', htmlClass: 'btn', cityName: "Samara", id: 499099 },
    { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
 ];
+
+createButtons(сities, createButtonsPanel());
 
 function createButtons(array, parent) {
    array.forEach((item) => {
@@ -55,13 +68,48 @@ function createButtons(array, parent) {
 };
 
 function createButtonsPanel() {
-   let par = document.querySelector('.b-wrapper-vidjet__btns-panel');
-   par.addEventListener('click', (event) => {
-      if (event.target.tagName == 'BUTTON') {
-         console.log('Нажатие на кнопку');
+   let parent = document.querySelector('.b-wrapper-vidjet__btns-panel');
+   parent.addEventListener('click', (event) => {
+      if (event.target.tagName === 'BUTTON') {
+         callAPI(event.target.id);
       }    
    })
-   return par;
+   return parent;
 }
 
-createButtons(сities, createButtonsPanel());
+
+
+/////МОДУЛЬ API ЗАПРОСОВ//////
+let HTML = {
+   city: document.querySelector(".city"),
+   temperature: document.querySelector(".temperature"),
+   disclaimer: document.querySelector(".disclaimer"),
+   pressure: document.querySelector(".pressure"),
+   icon: document.querySelector(".icon")
+};
+let capital = 524894; //город по умолчанию Москва
+
+callAPI(capital);
+
+function callAPI(capital) {
+   fetch(
+      `https://api.openweathermap.org/data/2.5/weather?id=${capital}&appid=26c46f6f0e712ec726a7e04d9ed513fc`
+   )
+      .then(function (resp) {
+         return resp.json();
+      })
+      .then(function (data) {
+         getInfoToHTML(data);
+      })
+      .catch(function () {
+         alert("Произошла ошибка запроса данных");
+      });
+}
+
+function getInfoToHTML(dataFromApi) {
+   HTML.city.innerHTML = dataFromApi.name;
+   HTML.temperature.innerHTML = Math.round(dataFromApi.main.temp - 273) + "&deg";
+   HTML.disclaimer.textContent = dataFromApi.weather[0]["description"];
+   HTML.pressure.textContent = `${dataFromApi.main.pressure} гПа`;
+   HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
+}
