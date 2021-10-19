@@ -1,7 +1,7 @@
 //////МОДУЛЬ РАЗМЕТКИ//////
 let htmlElements = [
-   {tag: 'article', classHTML: 'b-wrapper-vidjet'},
-   {tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet'},
+   { tag: 'article', classHTML: 'b-wrapper-vidjet'},
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet'},
    { tag: 'h2', classHTML: 'city' },
    { tag: 'p', classHTML: 'temperature' },
    { tag: 'p', classHTML: 'disclaimer' },
@@ -135,7 +135,9 @@ let clockElements = [
 
 
 createHTMLElements(clockElements);
+console.time()
 clockEngine();
+dateEngine();
 
 
 function clockEngine() {
@@ -143,17 +145,22 @@ function clockEngine() {
    let hour = date.getHours();
    let minute = date.getMinutes();
    let second = date.getSeconds();
-   let weekDays = ['Воскресенье', 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота']
-   let dayWeek = weekDays[date.getDay()];
    let timeOut = document.querySelector('.b-clock__time');
-   let dayOut = document.querySelector('.b-clock__date');
 
    hour = (hour < 10) ? '0' + hour : hour;
    minute = (minute < 10) ? '0' + minute : minute;
    second = (second < 10) ? '0' + second : second;
 
    timeOut.innerHTML = `${hour}:${minute}:${second}`;
-   dayOut.innerHTML = `${dayWeek}`;
 
    setTimeout(clockEngine, 1000);
 };
+
+function dateEngine() {
+   let date = new Date();
+   let weekDays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+   let dayWeek = weekDays[date.getDay()];
+   let dayOut = document.querySelector('.b-clock__date');
+   dayOut.innerHTML = `${dayWeek}`;
+}
+console.timeEnd()
