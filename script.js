@@ -10,7 +10,9 @@ let htmlElements = [
    { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel'}
    ];
 
+
 createHTMLElements(htmlElements);
+
 
 function createHTMLElements(x) {
    x.forEach((item) => {
@@ -19,12 +21,16 @@ function createHTMLElements(x) {
       let htmlElement = document.createElement(`${tag}`);
       htmlElement.classList = `${classHTML}`;
 
-      if (isElenentWithСlass(htmlElement, 'b-wrapper-vidjet')) {
+      if (isElenentWithСlass(htmlElement, 'b-wrapper-vidjet') || isElenentWithСlass(htmlElement, 'b-clock')) {
          document.body.append(htmlElement);
          htmlElement = '';
       }
       if (isElenentWithСlass(htmlElement, 'b-wrapper-vidjet__body-vidjet') || isElenentWithСlass(htmlElement,'b-wrapper-vidjet__btns-panel')) {
          document.querySelector('.b-wrapper-vidjet').append(htmlElement);
+         htmlElement = '';
+      }
+      if (isElenentWithСlass(htmlElement, 'b-clock__time') || isElenentWithСlass(htmlElement, 'b-clock__date')) {
+         document.querySelector('.b-clock').append(htmlElement);
          htmlElement = '';
       }
       if (htmlElement) {
@@ -54,7 +60,9 @@ let сities = [
    { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
 ];
 
+
 createButtons(сities, createButtonsPanel());
+
 
 function createButtons(array, parent) {
    array.forEach((item) => {
@@ -89,7 +97,9 @@ let HTML = {
 };
 let capital = 524894; //город по умолчанию Москва
 
+
 callAPI(capital);
+
 
 function callAPI(capital) {
    fetch(
@@ -113,3 +123,37 @@ function getInfoToHTML(dataFromApi) {
    HTML.pressure.textContent = `${dataFromApi.main.pressure} гПа`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
 }
+
+
+
+/////МОДУЛЬ ЧАСОВ//////
+let clockElements = [
+   { tag: 'article', classHTML: 'b-clock' },
+   { tag: 'div', classHTML: 'b-clock__time'},
+   { tag: 'div', classHTML: 'b-clock__date'}
+];
+
+
+createHTMLElements(clockElements);
+clockEngine();
+
+
+function clockEngine() {
+   let date = new Date();
+   let hour = date.getHours();
+   let minute = date.getMinutes();
+   let second = date.getSeconds();
+   let weekDays = ['Воскресенье', 'Понедельник','Вторник','Среда','Четверг','Пятница','Суббота']
+   let dayWeek = weekDays[date.getDay()];
+   let timeOut = document.querySelector('.b-clock__time');
+   let dayOut = document.querySelector('.b-clock__date');
+
+   hour = (hour < 10) ? '0' + hour : hour;
+   minute = (minute < 10) ? '0' + minute : minute;
+   second = (second < 10) ? '0' + second : second;
+
+   timeOut.innerHTML = `${hour}:${minute}:${second}`;
+   dayOut.innerHTML = `${dayWeek}`;
+
+   setTimeout(clockEngine, 1000);
+};
