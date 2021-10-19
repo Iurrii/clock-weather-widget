@@ -135,7 +135,7 @@ let clockElements = [
 
 
 createHTMLElements(clockElements);
-console.time()
+
 clockEngine();
 dateEngine();
 
@@ -163,4 +163,3 @@ function dateEngine() {
    let dayOut = document.querySelector('.b-clock__date');
    dayOut.innerHTML = `${dayWeek}`;
 }
-console.timeEnd()
