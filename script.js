@@ -1,3 +1,4 @@
+
 //////МОДУЛЬ РАЗМЕТКИ//////
 let htmlElements = [
    { tag: 'article', classHTML: 'b-wrapper-vidjet'},
@@ -146,20 +147,23 @@ function clockEngine() {
    let minute = date.getMinutes();
    let second = date.getSeconds();
    let timeOut = document.querySelector('.b-clock__time');
+   // let isDaylight = hour >= 8 && hour <= 18 ? true : false;
 
    hour = (hour < 10) ? '0' + hour : hour;
    minute = (minute < 10) ? '0' + minute : minute;
    second = (second < 10) ? '0' + second : second;
 
    timeOut.innerHTML = `${hour}:${minute}:${second}`;
-
    setTimeout(clockEngine, 1000);
 };
 
 function dateEngine() {
    let date = new Date();
-   let weekDays = ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота']
+   let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
    let dayWeek = weekDays[date.getDay()];
+   let dayMonth = date.getDate();
+   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov','Dec'];
+   let month = months[date.getMonth()];
    let dayOut = document.querySelector('.b-clock__date');
-   dayOut.innerHTML = `${dayWeek}`;
+   dayOut.innerHTML = `${dayWeek} ${dayMonth} ${month}`;
 }
