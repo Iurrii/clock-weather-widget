@@ -41,15 +41,8 @@ function createHTMLElements(x) {
 };
 
 function isElenentWithСlass(element, htmlClass) {
-   if (element.className === `${htmlClass}`) {
-      return true
-   }
-   else {
-      return false
-   }
+   return element.className === `${htmlClass}` ? true : false;
 };
-
-
 
 
 
@@ -133,13 +126,19 @@ let clockElements = [
    { tag: 'div', classHTML: 'b-clock__time'},
    { tag: 'div', classHTML: 'b-clock__date'}
 ];
+const DATE_INITIALIZATION = new Date();//используется в dateEngine и isDaylight
 
 
 createHTMLElements(clockElements);
-
 clockEngine();
 dateEngine();
 
+
+function isDaylight() {
+   let hour = DATE_INITIALIZATION.getHours();
+   return hour >= 8 && hour <= 18 ? true : false;
+}
+// console.log(isDaylight());
 
 function clockEngine() {
    let date = new Date();
@@ -147,7 +146,6 @@ function clockEngine() {
    let minute = date.getMinutes();
    let second = date.getSeconds();
    let timeOut = document.querySelector('.b-clock__time');
-   // let isDaylight = hour >= 8 && hour <= 18 ? true : false;
 
    hour = (hour < 10) ? '0' + hour : hour;
    minute = (minute < 10) ? '0' + minute : minute;
@@ -158,12 +156,13 @@ function clockEngine() {
 };
 
 function dateEngine() {
-   let date = new Date();
    let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-   let dayWeek = weekDays[date.getDay()];
-   let dayMonth = date.getDate();
+   let dayWeek = weekDays[DATE_INITIALIZATION.getDay()];
+   let dayMonth = DATE_INITIALIZATION.getDate();
    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov','Dec'];
-   let month = months[date.getMonth()];
+   let month = months[DATE_INITIALIZATION.getMonth()];
+
    let dayOut = document.querySelector('.b-clock__date');
+
    dayOut.innerHTML = `${dayWeek} ${dayMonth} ${month}`;
 }
