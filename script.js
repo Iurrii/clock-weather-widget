@@ -1,20 +1,4 @@
-
-//////МОДУЛЬ РАЗМЕТКИ//////
-let htmlElements = [
-   { tag: 'article', classHTML: 'b-wrapper-vidjet'},
-   { tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet'},
-   { tag: 'h2', classHTML: 'city' },
-   { tag: 'p', classHTML: 'temperature' },
-   { tag: 'p', classHTML: 'disclaimer' },
-   { tag: 'p', classHTML: 'icon' },
-   { tag: 'small', classHTML: 'pressure' },
-   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel'}
-   ];
-
-
-createHTMLElements(htmlElements);
-
-
+//////МОДУЛЬ HTML РАЗМЕТКИ//////
 function createHTMLElements(x) {
    x.forEach((item) => {
 
@@ -46,17 +30,31 @@ function isElenentWithСlass(element, htmlClass) {
 
 
 
-//////МОДУЛЬ КНОПОК//////
-let сities = [
+/////МОДУЛЬ ВИДЖЕТА//////
+let htmlElements = [//To create page elements.
+   { tag: 'article', classHTML: 'b-wrapper-vidjet' },
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet' },
+   { tag: 'h2', classHTML: 'city' },
+   { tag: 'p', classHTML: 'temperature' },
+   { tag: 'p', classHTML: 'disclaimer' },
+   { tag: 'p', classHTML: 'icon' },
+   { tag: 'small', classHTML: 'pressure' },
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' }
+];
+
+
+createHTMLElements(htmlElements);
+
+
+//~~~~~Подмодуль "Панель кнопок"~~~~~//
+let сities = [//To create module elements.
    { tag: 'button', htmlClass: 'btn', cityName: "Krasnodar", id: 542420 },
    { tag: 'button', htmlClass: 'btn', cityName: "Moscow", id: 524894 },
    { tag: 'button', htmlClass: 'btn', cityName: "Samara", id: 499099 },
    { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
 ];
 
-
 createButtons(сities, createButtonsPanel());
-
 
 function createButtons(array, parent) {
    array.forEach((item) => {
@@ -77,11 +75,11 @@ function createButtonsPanel() {
       }    
    })
    return parent;
-}
+};
 
 
 
-/////МОДУЛЬ API ЗАПРОСОВ//////
+/////МОДУЛЬ API зарпоса//////
 let HTML = {
    city: document.querySelector(".city"),
    temperature: document.querySelector(".temperature"),
@@ -89,7 +87,7 @@ let HTML = {
    pressure: document.querySelector(".pressure"),
    icon: document.querySelector(".icon")
 };
-let capital = 524894; //город по умолчанию Москва
+let capital = 524894; //default city Moscow
 
 
 callAPI(capital);
@@ -105,11 +103,15 @@ function callAPI(capital) {
       .then(function (data) {
          getInfoToHTML(data);
       })
-      .catch(function () {
+      .catch(() => {
          alert("Произошла ошибка запроса данных");
       });
-}
+};
 
+
+
+
+//~~~~~Подмодуль "Вывод API данных"~~~~~//
 function getInfoToHTML(dataFromApi) {
    HTML.city.innerHTML = dataFromApi.name;
    HTML.temperature.innerHTML = Math.round(dataFromApi.main.temp - 273) + "&deg";
@@ -120,32 +122,41 @@ function getInfoToHTML(dataFromApi) {
 
 
 
-/////МОДУЛЬ ЧАСОВ//////
-let clockElements = [
+/////Date module//////
+let clockElements = [//To create module elements.
    { tag: 'article', classHTML: 'b-clock' },
    { tag: 'div', classHTML: 'b-clock__time'},
    { tag: 'div', classHTML: 'b-clock__date'}
 ];
-const DATE_INITIALIZATION = new Date();//используется в dateEngine и isDaylight
-
 
 createHTMLElements(clockElements);
-clockEngine();
-dateEngine();
 
-
-function isDaylight() {
-   let hour = DATE_INITIALIZATION.getHours();
-   return hour >= 8 && hour <= 18 ? true : false;
+const date_init = new Date();//используется в dateEngine() и isDaylightHour()
+let whereFromDateModule = {
+   currentDateOut: document.querySelector('.b-clock__date'),
+   currentTimeOut: document.querySelector('.b-clock__time'),
 }
-// console.log(isDaylight());
+let what = {
+   currentDate: '',
+}
+
+//[Основной часовой модуль]//
+clockEngine();
+
+//[Подмодуль "День или ночь"]//
+// isDaylightHour();
+
+//[Подмодуль "День и месяц"]//
+dateEngine();
+writeFromJsToDom(whereFromDateModule.currentDateOut, what.currentDate);
+
 
 function clockEngine() {
    let date = new Date();
    let hour = date.getHours();
    let minute = date.getMinutes();
    let second = date.getSeconds();
-   let timeOut = document.querySelector('.b-clock__time');
+   let timeOut = whereFromDateModule.currentTimeOut;
 
    hour = (hour < 10) ? '0' + hour : hour;
    minute = (minute < 10) ? '0' + minute : minute;
@@ -155,14 +166,29 @@ function clockEngine() {
    setTimeout(clockEngine, 1000);
 };
 
+function writeFromJsToDom(where, what) {
+   where.innerHTML = what;
+}
+
+
+//~~~~~Подмодуль "День или ночь"~~~~~//
+//Работает на объекте date_init (из Date module)
+function isDaylightHour() {
+   let hour = date_init.getHours();
+   return hour >= 8 && hour <= 18 ? true : false;
+}
+
+
+//~~~~~Подмодуль "День и месяц"~~~~~//
+//Работает на объекте date_init (из Date module)
 function dateEngine() {
    let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-   let dayWeek = weekDays[DATE_INITIALIZATION.getDay()];
-   let dayMonth = DATE_INITIALIZATION.getDate();
+   let dayWeek = weekDays[date_init.getDay()];
+
+   let dayMonth = date_init.getDate();
+
    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov','Dec'];
-   let month = months[DATE_INITIALIZATION.getMonth()];
+   let month = months[date_init.getMonth()];
 
-   let dayOut = document.querySelector('.b-clock__date');
-
-   dayOut.innerHTML = `${dayWeek} ${dayMonth} ${month}`;
+   what.currentDate = `${dayWeek} ${dayMonth} ${month}`;
 }
