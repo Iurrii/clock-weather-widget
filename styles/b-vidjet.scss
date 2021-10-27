@@ -1,5 +1,16 @@
-.b-wrapper-vidjet{
-   background-color:aqua;
+.b-wrapper-vidjet {
+   margin: auto;
+   width: 400px;
    display: flex;
+   flex-direction: column;
+   align-items: center;
+   background-color:rgba(119,52,36,0.2);
+
+   &__body-vidjet {
+      display: flex;
+      flex-direction: column;
+      align-items:center;
+
+   }
 }
 
