@@ -119,7 +119,7 @@ function getInfoToHTML(dataFromApi) {
    HTML.city.innerHTML = dataFromApi.name;
    HTML.temperature.innerHTML = Math.round(dataFromApi.main.temp - 273) + "&deg";
    HTML.disclaimer.textContent = dataFromApi.weather[0]["description"];
-   HTML.pressure.textContent = `${dataFromApi.main.pressure} гПа`;
+   HTML.pressure.textContent = `${dataFromApi.main.pressure} gPa`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
 }
 

@@ -4,7 +4,9 @@
    display: flex;
    flex-direction: column;
    align-items: center;
-   background-color:rgba(119,52,36,0.2);
+   background-color:rgb(93%, 87%, 86%, 0.3);
+   // backdrop-filter: blur(10px);
+   font-size: 30px;
 
    &__body-vidjet {
       display: flex;
