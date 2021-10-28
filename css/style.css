@@ -37,20 +37,21 @@ body {
 }
 
 .btn {
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  -webkit-transition: all 0.1s ease;
+  transition: all 0.1s ease;
   border: none;
+  border: 1px solid #402524;
   border-radius: 2px;
   background-color: #d5b8b0;
   width: 90px;
   height: 25px;
-  margin: 0px 2px;
   color: #402524;
   font-family: 'Horizon', 'Samson';
+  font-size: 15px;
 }
 
 .btn:hover {
   border-radius: 200px 0px 200px 0px;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
