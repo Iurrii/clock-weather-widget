@@ -1,17 +1,23 @@
+$btn-color: rgba(213, 184, 176, 1);
+$text-color:rgba(64, 37, 36, 1);
+$base-color:rgba(223, 218, 218, 1);
+
 .b-wrapper-vidjet {
    margin: auto;
    width: 400px;
    display: flex;
    flex-direction: column;
    align-items: center;
-   background-color:rgb(93%, 87%, 86%, 0.3);
-   // backdrop-filter: blur(10px);
+   background-color:rgba(93%, 87%, 86%, 0.3);
+   // filter: blur(10px);
    font-size: 30px;
 
    &__body-vidjet {
       display: flex;
       flex-direction: column;
       align-items:center;
+      justify-content: end;
+      color: $text-color;
 
    }
 }

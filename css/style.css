@@ -18,17 +18,17 @@ body {
   background-repeat: no-repeat;
   background-position: right top;
   margin-top: 10vh;
-  font-family: 'Horizon', 'Samson Light';
+  font-family: 'Horizon', 'Samson';
 }
 
 .b-clock {
-  font-family: 'Horizon', 'Samson Light';
+  font-family: 'Horizon', 'Samson';
   height: auto;
 }
 
 .b-clock__time {
   font-size: 45px;
-  font-family: 'Samson Light';
+  font-family: 'Samson';
 }
 
 .b-clock__date {
@@ -41,10 +41,12 @@ body {
   transition: all 0.5s ease;
   border: none;
   border-radius: 2px;
-  background-color: #875539;
+  background-color: #d5b8b0;
   width: 90px;
   height: 25px;
   margin: 0px 2px;
+  color: #402524;
+  font-family: 'Horizon', 'Samson';
 }
 
 .btn:hover {

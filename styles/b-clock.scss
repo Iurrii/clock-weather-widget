@@ -1,9 +1,13 @@
+$btn-color: rgba(213, 184, 176, 1);
+$text-color: rgba(64, 37, 36, 1);
+$base-color:rgba(223, 218, 218, 1);
+
 .b-clock {
     margin: auto;
     width: 400px;
     display: flex;
     flex-direction: column;
     align-items:center;
-    background-color:rgb(93%, 87%, 86%, 0.3);
-    color:#78aac6;
+    background-color:rgba(93%, 87%, 86%, 0.3);
+    color: $text-color;
 }
