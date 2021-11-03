@@ -9,36 +9,77 @@ $base-color:rgba(223, 218, 218, 1);
    flex-direction: column;
    align-items: center;
    background-color:rgba(93%, 87%, 86%, 0.6);
-   // filter: blur(10px);
    font-size: 30px;
 
    &__body-vidjet {
       display: flex;
       flex-direction: column;
+      position: relative;
       align-items:center;
       color: $text-color;
       max-width: fit-content;
-      margin-bottom:10px;
-
+      padding: 10px 0;
+      height: 315px;
+      visibility: visible;
    }
    &__btns-panel{
       background-color: $text-color;
       display: flex;
       align-items:center;
       justify-content: center;
-      // padding: 0px 2px;
       border-radius:3px;
       max-width: fit-content;
    }
 }
 
-.city{
+.city {
    display: block;
-   // margin: 0;
+   margin: 0;
 }
-.temperature{
+
+.temperature {
    display: block;
    font-size: 70px;
    margin: 0;
 }
 
+.disclaimer {
+   margin: 0;
+}
+
+.icon {
+   margin: 0;
+}
+
+.spinner {
+   display: none;
+   position: absolute;
+   margin-top: 120px;
+   color:$text-color;
+}
+
+.spinner-show {
+   display: block;
+   visibility: visible;
+}
+
+.btn {
+    -webkit-transition: all 0.1s ease;
+    -moz-transition: all 0.1s ease;
+    transition: all 0.1s ease;
+    border:none;
+    border: 1px solid $text-color;
+    border-radius:2px;
+    background-color: $btn-color;
+    width: 90px;
+    height: 25px;
+    color: $text-color;
+    font-family: 'Horizon', 'Samson';
+    font-size: 15px;
+    &:hover{
+        border-radius:200px 0px 200px 0px;
+        -webkit-transition: all 0.2s ease;
+        -moz-transition: all 0.2s ease;
+        transition: all 0.2s ease;   
+    }
+}

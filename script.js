@@ -33,6 +33,9 @@ function isElenentWithСlass(element, htmlClass) {
 
 
 
+
+
+
 /////МОДУЛЬ ВИДЖЕТА//////
 let htmlElements = [//To create page elements.
    { tag: 'article', classHTML: 'b-wrapper-vidjet' },
@@ -42,22 +45,40 @@ let htmlElements = [//To create page elements.
    { tag: 'p', classHTML: 'disclaimer' },
    { tag: 'p', classHTML: 'icon' },
    { tag: 'small', classHTML: 'pressure' },
-   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' }
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' },
+   { tag: 'i', classHTML: ' fa-spinner fa-2x spinner' }
 ];
 
 
 createHTMLElements(htmlElements);
 
 
+function vidjetEngine(capital) {
+   callAPI(capital);
+
+   setTimeout(() => {
+      switchSpinner();
+      switchBodyVidjet();
+   }, 300)
+
+   switchSpinner();
+   switchBodyVidjet();
+}
+
+
+
+
 //~~~~~Подмодуль "Панель кнопок"~~~~~//
 let сities = [//To create module elements.
-   { tag: 'button', htmlClass: 'btn', cityName: "Krasnodar", id: 542420 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Cairo", id: 360630 },
    { tag: 'button', htmlClass: 'btn', cityName: "Moscow", id: 524894 },
-   { tag: 'button', htmlClass: 'btn', cityName: "Samara", id: 499099 },
-   { tag: 'button', htmlClass: 'btn', cityName: "Tula", id: 480562 }
+   { tag: 'button', htmlClass: 'btn', cityName: "Mexico", id: 3530597 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Sydney", id: 2147714 }
 ];
 
+
 createButtons(сities, createButtonsPanel());
+
 
 function createButtons(array, parent) {
    array.forEach((item) => {
@@ -74,11 +95,39 @@ function createButtonsPanel() {
    let parent = document.querySelector('.b-wrapper-vidjet__btns-panel');
    parent.addEventListener('click', (event) => {
       if (event.target.tagName === 'BUTTON') {
-         callAPI(event.target.id);
+         vidjetEngine(event.target.id);
       }    
    })
    return parent;
 };
+
+
+
+
+//~~~~~Подмодуль "Спиннер"~~~~~//
+let spinner = document.querySelector('.spinner');
+
+function switchSpinner() {
+   if (spinner.classList.contains('spinner-show')) {
+      spinner.classList.remove('spinner-show', 'fa-pulse', 'fas')
+   }
+   else {
+      spinner.classList.add('spinner-show', 'fa-pulse', 'fas')
+   }
+};
+
+
+
+
+//~~~~~Подмодуль "Скрытие данных"~~~~~//
+let bodyVidjet = document.querySelector('.b-wrapper-vidjet__body-vidjet')
+
+function switchBodyVidjet() {
+   bodyVidjet.style.visibility = bodyVidjet.style.visibility === 'hidden' ? 'visible' : 'hidden';
+};
+
+
+
 
 
 
@@ -90,7 +139,7 @@ let HTML = {
    pressure: document.querySelector(".pressure"),
    icon: document.querySelector(".icon")
 };
-let capital = 524894; //default city Moscow
+let capital = 2964574; //default city "Dublin, IE"
 
 
 callAPI(capital);
@@ -122,6 +171,9 @@ function getInfoToHTML(dataFromApi) {
    HTML.pressure.textContent = `${dataFromApi.main.pressure} gPa`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
 }
+
+
+
 
 
 
@@ -174,12 +226,16 @@ function writeFromJsToDom(where, what) {
 }
 
 
+
+
 //~~~~~Подмодуль "День или ночь"~~~~~//
 //Работает на объекте date_init (из Date module)
 function isDaylightHour() {
    let hour = date_init.getHours();
    return hour >= 8 && hour <= 18 ? true : false;
 }
+
+
 
 
 //~~~~~Подмодуль "День и месяц"~~~~~//

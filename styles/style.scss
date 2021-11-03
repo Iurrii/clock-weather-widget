@@ -23,58 +23,7 @@ body {
     font-family: 'Horizon', 'Samson';
 }
 
-.b-clock{
-    font-family: 'Horizon', 'Samson';
-    height: auto;
-    &__time{
-        font-size: 45px;
-        font-family: 'Samson';
-
-    }
-    &__date{
-        font-size: 20px;
-        font-family: 'Horizon', 'Samson';
-    }
-}
-
-.btn {
-    -webkit-transition: all 0.1s ease;
-    -moz-transition: all 0.1s ease;
-    transition: all 0.1s ease;
-    border:none;
-    border: 1px solid $text-color;
-    border-radius:2px;
-    background-color: $btn-color;
-    width: 90px;
-    height: 25px;
-    color: $text-color;
-    font-family: 'Horizon', 'Samson';
-    font-size: 15px;
-    &:hover{
-        border-radius:200px 0px 200px 0px;
-        -webkit-transition: all 0.2s ease;
-        -moz-transition: all 0.2s ease;
-        transition: all 0.2s ease;   
-    }
-}
 
 
 
 
-// .test1{
-//     text-align: center;
-// }
-
-// .test2{
-//     background: url('https://images.unsplash.com/photo-1486723312829-f32b4a25211b?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=&bg=') no-repeat center center fixed;
-//     background-size: cover;
-//     overflow: hidden;
-//     filter: blur(1px);
-//     position: absolute;
-//     width: 300px;
-//     height: 300px;
-// }
-
-// .test3{
-//   position: absolute;
-// }
