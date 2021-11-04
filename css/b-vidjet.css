@@ -11,7 +11,8 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: rgba(237, 222, 219, 0.6);
+  border-radius: 5px 5px 0px 0px;
+  background-color: rgba(237, 222, 219, 0.7);
   font-size: 30px;
 }
 
@@ -65,12 +66,14 @@
   display: block;
   font-size: 70px;
   margin: 0;
+  font-family: 'Iceland';
 }
 
 .disclaimer {
   margin: 0;
   display: block;
   text-align: center;
+  font-family: 'Iceland';
 }
 
 .icon {
@@ -78,6 +81,7 @@
 }
 
 .pressure {
+  font-family: 'Iceland';
   text-transform: lowercase;
 }
 

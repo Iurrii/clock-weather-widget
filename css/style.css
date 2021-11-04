@@ -4,13 +4,8 @@
 }
 
 @font-face {
-  font-family: 'Samson Light';
-  src: url("../fonts/Samson light.ttf");
-}
-
-@font-face {
-  font-family: 'Samson';
-  src: url("../fonts/Samson.ttf");
+  font-family: 'Iceland';
+  src: url("../fonts/Iceland-Regular.ttf");
 }
 
 body {
