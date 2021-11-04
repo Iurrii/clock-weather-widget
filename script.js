@@ -1,4 +1,28 @@
-//////МОДУЛЬ HTML РАЗМЕТКИ//////
+//////МОДУЛЬ ГЕНЕРАЦИИ HTML РАЗМЕТКИ//////
+let htmlElements = [//To create page elements.
+   { tag: 'article', classHTML: 'b-wrapper-vidjet' },
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet' },
+   { tag: 'h2', classHTML: 'city' },
+   { tag: 'p', classHTML: 'temperature' },
+   { tag: 'p', classHTML: 'disclaimer' },
+   { tag: 'p', classHTML: 'icon' },
+   { tag: 'p', classHTML: 'wind' },
+   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' },
+   { tag: 'i', classHTML: ' fa-spinner fa-2x spinner' }
+];
+let сities = [//To create module elements.
+   { tag: 'button', htmlClass: 'btn', cityName: "Cairo", id: 360630 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Moscow", id: 524894 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Mexico", id: 3530597 },
+   { tag: 'button', htmlClass: 'btn', cityName: "Sydney", id: 2147714 }
+];
+let clockElements = [//To create module elements.
+   { tag: 'article', classHTML: 'b-clock' },
+   { tag: 'div', classHTML: 'b-clock__time' },
+   { tag: 'div', classHTML: 'b-clock__date' }
+];
+
+
 function createHTMLElements(x) {
    x.forEach((item) => {
 
@@ -31,56 +55,9 @@ function isElenentWithСlass(element, htmlClass) {
    return element.className === `${htmlClass}` ? true : false;
 };
 
-
-
-
-
-
-/////МОДУЛЬ ВИДЖЕТА//////
-let htmlElements = [//To create page elements.
-   { tag: 'article', classHTML: 'b-wrapper-vidjet' },
-   { tag: 'section', classHTML: 'b-wrapper-vidjet__body-vidjet' },
-   { tag: 'h2', classHTML: 'city' },
-   { tag: 'p', classHTML: 'temperature' },
-   { tag: 'p', classHTML: 'disclaimer' },
-   { tag: 'p', classHTML: 'icon' },
-   { tag: 'p', classHTML: 'wind' },
-   { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' },
-   { tag: 'i', classHTML: ' fa-spinner fa-2x spinner' }
-];
-
-
-createHTMLElements(htmlElements);
-
-
-function vidjetEngine(capital) {
-   callAPI(capital);
-
-   setTimeout(() => {
-      switchSpinner();
-      switchBodyVidjet();
-   }, 300)
-
-   switchSpinner();
-   switchBodyVidjet();
-};
-
-
-//~~~~~Подмодуль "Панель кнопок"~~~~~//
-let сities = [//To create module elements.
-   { tag: 'button', htmlClass: 'btn', cityName: "Cairo", id: 360630 },
-   { tag: 'button', htmlClass: 'btn', cityName: "Moscow", id: 524894 },
-   { tag: 'button', htmlClass: 'btn', cityName: "Mexico", id: 3530597 },
-   { tag: 'button', htmlClass: 'btn', cityName: "Sydney", id: 2147714 }
-];
-
-
-createButtons(сities, createButtonsPanel());
-
-
 function createButtons(array, parent) {
    array.forEach((item) => {
-      let { tag, htmlClass, id, cityName} = item;
+      let { tag, htmlClass, id, cityName } = item;
       let htmlElement = document.createElement(`${tag}`);
       htmlElement.textContent = cityName;
       htmlElement.id = id;
@@ -94,40 +71,30 @@ function createButtonsPanel() {
    parent.addEventListener('click', (event) => {
       if (event.target.tagName === 'BUTTON') {
          vidjetEngine(event.target.id);
-      }    
+      }
    })
    return parent;
 };
 
+/////Создание "МОДУЛЬ ВИДЖЕТА"//////
+createHTMLElements(htmlElements);
+//~~~~~Подмодуль "Панель кнопок"~~~~~//
+createButtons(сities, createButtonsPanel());
+/////Создание "DATE END TIME MODULE"//////
+createHTMLElements(clockElements);
 
-//~~~~~Подмодуль "Спиннер"~~~~~//
+
+
+
+////МОДУЛЬ Variables////
+/////модуль виджета//////
 let spinner = document.querySelector('.spinner');
-
-function switchSpinner() {
-   if (spinner.classList.contains('spinner-show')) {
-      spinner.classList.remove('spinner-show', 'fa-pulse', 'fas')
-   }
-   else {
-      spinner.classList.add('spinner-show', 'fa-pulse', 'fas')
-   }
-};
-
-
-//~~~~~Подмодуль "Скрытие данных"~~~~~//
-let bodyVidjet = document.querySelector('.b-wrapper-vidjet__body-vidjet')
-
-function switchBodyVidjet() {
-   bodyVidjet.style.visibility = bodyVidjet.style.visibility === 'visible' ? 'hidden' : 'visible';
-};
-
-window.onload = ( )=> {
-   setTimeout(switchBodyVidjet, 300);
-}
-// switchBodyVidjet();
-
-
-
-/////МОДУЛЬ API зарпоса//////
+let bodyVidjet = document.querySelector('.b-wrapper-vidjet__body-vidjet');
+/////date end time module//////
+const date_init = new Date();//используется в dateEngine(), isDaylightHour(), determineLocalTimeZone()
+let timeOut = document.querySelector('.b-clock__time');
+let dateOut = document.querySelector('.b-clock__date');
+/////модуль API запроса//////
 let HTML = {
    city: document.querySelector(".city"),
    temperature: document.querySelector(".temperature"),
@@ -135,7 +102,6 @@ let HTML = {
    wind: document.querySelector(".wind"),
    icon: document.querySelector(".icon")
 };
-const date_init = new Date();//используется в dateEngine() и isDaylightHour()
 let timeZones = {
    '-7': 5551752,
    '-6': 5419384,
@@ -156,12 +122,114 @@ let timeZones = {
    '10': 4043988,
    '11': 2123628,
    '12': 2205218,
-}
+};
 let capital = startCityAPI();
+////Variables-END////
 
 
-callAPI(capital);
 
+
+////БЛОК УПРАВЛЕНИЯ МОДУЛЯМИ И ПРОЦЕССАМИ////
+//
+window.onload = () => {
+   setTimeout(switchBodyVidjet, 500);//начальное скрытие экрана погоды
+}
+clockEngine();//генерация и вывод времени
+dateEngine();//генерация и вывод текущей даты
+callAPI(capital);//запрос и вывод погоды
+// isDaylightHour();//проверка "день?"
+//
+////БЛОК УПРАВЛЕНИЯ МОДУЛЯМИ И ПРОЦЕССАМИ-END////
+
+
+
+
+/////МОДУЛЬ ВИДЖЕТА//////
+function vidjetEngine(capital) {
+   callAPI(capital);
+
+   setTimeout(() => {
+      switchSpinner();
+      switchBodyVidjet();
+   }, 300)
+
+   switchSpinner();
+   switchBodyVidjet();
+};
+
+
+//~~~~~Подмодуль "Спиннер"~~~~~//
+function switchSpinner() {
+   if (spinner.classList.contains('spinner-show')) {
+      spinner.classList.remove('spinner-show', 'fa-pulse', 'fas')
+   }
+   else {
+      spinner.classList.add('spinner-show', 'fa-pulse', 'fas')
+   }
+};
+
+
+//~~~~~Подмодуль "Скрытие погоды"~~~~~//
+function switchBodyVidjet() {
+   bodyVidjet.style.visibility = bodyVidjet.style.visibility === 'visible' ? 'hidden' : 'visible';
+};
+
+
+
+
+/////DATE END TIME MODULE//////
+function clockEngine() {
+   let date = new Date();
+   let hour = date.getHours();
+   let minute = date.getMinutes();
+   let second = date.getSeconds();
+   // let timeOut = whereFromDateModule.currentTimeOut;
+
+   hour = (hour < 10) ? '0' + hour : hour;
+   minute = (minute < 10) ? '0' + minute : minute;
+   second = (second < 10) ? '0' + second : second;
+
+   timeOut.innerHTML = `${hour}:${minute}:${second}`;
+   setTimeout(clockEngine, 1000);
+};
+
+
+//~~~~~Подмодуль "День и месяц"~~~~~//
+//Работает на объекте date_init (из Date module)
+function dateEngine() {
+   let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+   let dayWeek = weekDays[date_init.getDay()];
+
+   let dayMonth = date_init.getDate();
+
+   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov','Dec'];
+   let month = months[date_init.getMonth()];
+
+   dateOut.innerHTML = `${dayWeek} ${dayMonth} ${month}`;
+};
+
+
+//~~~~~Подмодуль "Локальный часовой пояс"~~~~~//
+//Работает на объекте date_init (из Date module)
+function determineLocalTimeZone() {
+   return (date_init.getTimezoneOffset() / 60) * -1;
+};
+
+
+//~~~~~Подмодуль "День или ночь"~~~~~//
+//Работает на объекте date_init (из Date module)
+// function isDaylightHour() {
+//    let hour = date_init.getHours();
+//    return hour >= 8 && hour <= 18 ? true : false;
+// }
+
+
+
+
+/////МОДУЛЬ API зарпоса//////
+function startCityAPI() {
+   return timeZones[determineLocalTimeZone()]
+}
 
 function callAPI(capital) {
    fetch(
@@ -186,93 +254,6 @@ function getInfoToHTML(dataFromApi) {
    HTML.disclaimer.textContent = dataFromApi.weather[0]["description"];
    HTML.wind.textContent = `Wind ${dataFromApi.wind.speed} m/s`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
-}
-
-
-//~~~~~Подмодуль "Локальный часовой пояс"~~~~~//
-//Работает на объекте date_init (из Date module)
-function localTimeZone() {
-   return (date_init.getTimezoneOffset() / 60) * -1;
-}
-
-function startCityAPI() {
-   return timeZones[localTimeZone()]
-}
-
-
-
-
-
-
-/////Date module//////
-let clockElements = [//To create module elements.
-   { tag: 'article', classHTML: 'b-clock' },
-   { tag: 'div', classHTML: 'b-clock__time'},
-   { tag: 'div', classHTML: 'b-clock__date'}
-];
-
-createHTMLElements(clockElements);
-
-
-let whereFromDateModule = {
-   currentDateOut: document.querySelector('.b-clock__date'),
-   currentTimeOut: document.querySelector('.b-clock__time'),
-}
-let what = {
-   currentDate: '',
-}
-
-//[Основной часовой модуль]//
-clockEngine();
-
-//[Подмодуль "День или ночь"]//
-// isDaylightHour();
-
-//[Подмодуль "День и месяц"]//
-dateEngine();
-writeFromJsToDom(whereFromDateModule.currentDateOut, what.currentDate);
-
-
-function clockEngine() {
-   let date = new Date();
-   let hour = date.getHours();
-   let minute = date.getMinutes();
-   let second = date.getSeconds();
-   let timeOut = whereFromDateModule.currentTimeOut;
-
-   hour = (hour < 10) ? '0' + hour : hour;
-   minute = (minute < 10) ? '0' + minute : minute;
-   second = (second < 10) ? '0' + second : second;
-
-   timeOut.innerHTML = `${hour}:${minute}:${second}`;
-   setTimeout(clockEngine, 1000);
-};
-
-function writeFromJsToDom(where, what) {
-   where.innerHTML = what;
-}
-
-
-//~~~~~Подмодуль "День или ночь"~~~~~//
-//Работает на объекте date_init (из Date module)
-function isDaylightHour() {
-   let hour = date_init.getHours();
-   return hour >= 8 && hour <= 18 ? true : false;
-}
-
-
-//~~~~~Подмодуль "День и месяц"~~~~~//
-//Работает на объекте date_init (из Date module)
-function dateEngine() {
-   let weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-   let dayWeek = weekDays[date_init.getDay()];
-
-   let dayMonth = date_init.getDate();
-
-   let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov','Dec'];
-   let month = months[date_init.getMonth()];
-
-   what.currentDate = `${dayWeek} ${dayMonth} ${month}`;
 }
 
 
