@@ -8,16 +8,19 @@
     src: url('../fonts/Iceland-Regular.ttf');
 }
 
+// @import url('https://fonts.googleapis.com/css2?family=Iceland&display=swap');
+@import url('../css/b-vidjet.min.css');
+@import url('../css/b-clock.min.css');
+
 $btn-color: rgba(213, 184, 176, 1);
 $text-color: rgba(64, 37, 36, 1);
 $base-color:rgba(223, 218, 218, 1);
 
 body {
-    background-image: url(https://www.wallpaperup.com/uploads/wallpapers/2017/11/23/1158880/c19e2ce775bd4ab12f066c98d203398a.jpg);
+    background-image: url('../img/bg.jpg');
     background-repeat: no-repeat;
     background-position: right top;
     margin-top: 10vh;
-    font-family: 'Horizon', 'Samson';
 }
 
 

@@ -36,8 +36,8 @@
   max-width: -moz-fit-content;
   max-width: fit-content;
   padding: 10px 0;
-  min-height: 355px;
-  visibility: visible;
+  min-height: 377px;
+  visibility: hidden;
 }
 
 .b-wrapper-vidjet__btns-panel {
@@ -60,6 +60,7 @@
 .city {
   display: block;
   margin: 0;
+  font-family: 'Horizon', 'Iceland';
 }
 
 .temperature {
@@ -80,7 +81,8 @@
   margin: 0;
 }
 
-.pressure {
+.wind {
+  margin: 0;
   font-family: 'Iceland';
   text-transform: lowercase;
 }

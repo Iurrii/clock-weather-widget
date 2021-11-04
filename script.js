@@ -44,7 +44,7 @@ let htmlElements = [//To create page elements.
    { tag: 'p', classHTML: 'temperature' },
    { tag: 'p', classHTML: 'disclaimer' },
    { tag: 'p', classHTML: 'icon' },
-   { tag: 'small', classHTML: 'pressure' },
+   { tag: 'p', classHTML: 'wind' },
    { tag: 'section', classHTML: 'b-wrapper-vidjet__btns-panel' },
    { tag: 'i', classHTML: ' fa-spinner fa-2x spinner' }
 ];
@@ -63,9 +63,7 @@ function vidjetEngine(capital) {
 
    switchSpinner();
    switchBodyVidjet();
-}
-
-
+};
 
 
 //~~~~~Подмодуль "Панель кнопок"~~~~~//
@@ -102,8 +100,6 @@ function createButtonsPanel() {
 };
 
 
-
-
 //~~~~~Подмодуль "Спиннер"~~~~~//
 let spinner = document.querySelector('.spinner');
 
@@ -117,17 +113,17 @@ function switchSpinner() {
 };
 
 
-
-
 //~~~~~Подмодуль "Скрытие данных"~~~~~//
 let bodyVidjet = document.querySelector('.b-wrapper-vidjet__body-vidjet')
 
 function switchBodyVidjet() {
-   bodyVidjet.style.visibility = bodyVidjet.style.visibility === 'hidden' ? 'visible' : 'hidden';
+   bodyVidjet.style.visibility = bodyVidjet.style.visibility === 'visible' ? 'hidden' : 'visible';
 };
 
-
-
+window.onload = ( )=> {
+   setTimeout(switchBodyVidjet, 300);
+}
+// switchBodyVidjet();
 
 
 
@@ -136,7 +132,7 @@ let HTML = {
    city: document.querySelector(".city"),
    temperature: document.querySelector(".temperature"),
    disclaimer: document.querySelector(".disclaimer"),
-   pressure: document.querySelector(".pressure"),
+   wind: document.querySelector(".wind"),
    icon: document.querySelector(".icon")
 };
 const date_init = new Date();//используется в dateEngine() и isDaylightHour()
@@ -161,7 +157,7 @@ let timeZones = {
    '11': 2123628,
    '12': 2205218,
 }
-let capital = startCityAPI(); //default city "Dublin, IE"
+let capital = startCityAPI();
 
 
 callAPI(capital);
@@ -183,32 +179,26 @@ function callAPI(capital) {
 };
 
 
-
-
 //~~~~~Подмодуль "Вывод API данных"~~~~~//
 function getInfoToHTML(dataFromApi) {
    HTML.city.innerHTML = dataFromApi.name;
    HTML.temperature.innerHTML = Math.round(dataFromApi.main.temp - 273) + "&deg";
    HTML.disclaimer.textContent = dataFromApi.weather[0]["description"];
-   HTML.pressure.textContent = `Wind ${dataFromApi.wind.speed} m/s`;
+   HTML.wind.textContent = `Wind ${dataFromApi.wind.speed} m/s`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
 }
 
+
 //~~~~~Подмодуль "Локальный часовой пояс"~~~~~//
 //Работает на объекте date_init (из Date module)
-
-
 function localTimeZone() {
    return (date_init.getTimezoneOffset() / 60) * -1;
 }
-
-console.log(localTimeZone());
 
 function startCityAPI() {
    return timeZones[localTimeZone()]
 }
 
-console.log(startCityAPI());
 
 
 
@@ -263,16 +253,12 @@ function writeFromJsToDom(where, what) {
 }
 
 
-
-
 //~~~~~Подмодуль "День или ночь"~~~~~//
 //Работает на объекте date_init (из Date module)
 function isDaylightHour() {
    let hour = date_init.getHours();
    return hour >= 8 && hour <= 18 ? true : false;
 }
-
-
 
 
 //~~~~~Подмодуль "День и месяц"~~~~~//
