@@ -23,6 +23,9 @@
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   position: relative;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -32,7 +35,7 @@
   max-width: -moz-fit-content;
   max-width: fit-content;
   padding: 10px 0;
-  height: 315px;
+  min-height: 355px;
   visibility: visible;
 }
 
@@ -66,10 +69,16 @@
 
 .disclaimer {
   margin: 0;
+  display: block;
+  text-align: center;
 }
 
 .icon {
   margin: 0;
+}
+
+.pressure {
+  text-transform: lowercase;
 }
 
 .spinner {

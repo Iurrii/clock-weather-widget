@@ -139,7 +139,29 @@ let HTML = {
    pressure: document.querySelector(".pressure"),
    icon: document.querySelector(".icon")
 };
-let capital = 2964574; //default city "Dublin, IE"
+const date_init = new Date();//используется в dateEngine() и isDaylightHour()
+let timeZones = {
+   '-7': 5551752,
+   '-6': 5419384,
+   '-5': 3688689,
+   '-4': 4568138,
+   '-3': 3441575,
+   '-1': 3372783,
+   '0': 2643743,
+   '1': 2950159,
+   '2': 703448,
+   '3': 524901,
+   '4': 499099,
+   '5': 1174872,
+   '6': 1526273,
+   '7': 1609350,
+   '8': 1880252,
+   '9': 1835848,
+   '10': 4043988,
+   '11': 2123628,
+   '12': 2205218,
+}
+let capital = startCityAPI(); //default city "Dublin, IE"
 
 
 callAPI(capital);
@@ -168,10 +190,25 @@ function getInfoToHTML(dataFromApi) {
    HTML.city.innerHTML = dataFromApi.name;
    HTML.temperature.innerHTML = Math.round(dataFromApi.main.temp - 273) + "&deg";
    HTML.disclaimer.textContent = dataFromApi.weather[0]["description"];
-   HTML.pressure.textContent = `${dataFromApi.main.pressure} gPa`;
+   HTML.pressure.textContent = `Wind ${dataFromApi.wind.speed} m/s`;
    HTML.icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${dataFromApi.weather[0]["icon"]}@2x.png">`;
 }
 
+//~~~~~Подмодуль "Локальный часовой пояс"~~~~~//
+//Работает на объекте date_init (из Date module)
+
+
+function localTimeZone() {
+   return (date_init.getTimezoneOffset() / 60) * -1;
+}
+
+console.log(localTimeZone());
+
+function startCityAPI() {
+   return timeZones[localTimeZone()]
+}
+
+console.log(startCityAPI());
 
 
 
@@ -186,7 +223,7 @@ let clockElements = [//To create module elements.
 
 createHTMLElements(clockElements);
 
-const date_init = new Date();//используется в dateEngine() и isDaylightHour()
+
 let whereFromDateModule = {
    currentDateOut: document.querySelector('.b-clock__date'),
    currentTimeOut: document.querySelector('.b-clock__time'),
@@ -251,6 +288,18 @@ function dateEngine() {
 
    what.currentDate = `${dayWeek} ${dayMonth} ${month}`;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

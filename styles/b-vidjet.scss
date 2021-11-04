@@ -14,12 +14,13 @@ $base-color:rgba(223, 218, 218, 1);
    &__body-vidjet {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       position: relative;
       align-items:center;
       color: $text-color;
       max-width: fit-content;
       padding: 10px 0;
-      height: 315px;
+      min-height: 355px;
       visibility: visible;
    }
    &__btns-panel{
@@ -45,10 +46,16 @@ $base-color:rgba(223, 218, 218, 1);
 
 .disclaimer {
    margin: 0;
+   display: block;
+   text-align: center;
 }
 
 .icon {
    margin: 0;
+}
+
+.pressure {
+  text-transform: lowercase;
 }
 
 .spinner {
